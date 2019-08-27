@@ -2,7 +2,7 @@ import requests, pickle
 import time
 
 def fb_login(user,password):
-    print('INICIO DE SESION')
+    print('Logging in facebook')
     session = requests.Session()  
     r = session.get('https://www.facebook.com')   
     jazoest = r.text.split('jazoest" value="')[1].split('"')[0]
@@ -12,7 +12,7 @@ def fb_login(user,password):
     for name,value in session.cookies.items():
         cookies = cookies + name +'=' +value+';'
         # print(name,':',value)
-    print('LOGIN FACEBOOK')
+    # print('LOGIN FACEBOOK')
     session.headers.update({'Host': 'www.facebook.com',
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0',
                             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -57,43 +57,39 @@ def fb_login(user,password):
     print(r2.status_code, r2.url)
     for resp in r2.history:
         print (resp.status_code, resp.url)
-
-    # print("LOGGED")
-    #Archivo de respuesta al login
-    flename = 'Facebook_login.html'
-    with open(flename, 'wb') as f:
-        f.write(r2.content)
     
+    if r2.status != 200:
+        print("Login failed")
     return session
 
 def fb_save_session(session):
-    with open('facebook_cookies', 'wb') as f:
-        pickle.dump(session.cookies, f)
+    try:
+        print("Saving session")
+        with open('facebook_cookies', 'wb') as f:
+            pickle.dump(session.cookies, f)
+    except:
+        print("Save failed")
 
 def fb_retrieve_session():
-    print('INICIO DE SESION')
+    print('Retrieving session')
     session = requests.Session()  
     r = session.get('https://www.facebook.com')   
-
     jazoest = r.text.split('jazoest" value="')[1].split('"')[0]
-
-    # print("COOKIE 1")
     cookies = ""
     for name,value in session.cookies.items():
         cookies = cookies + name +'=' +value+';'
         # print(name,':',value)
     
-    print('Recuperando login anterior')
     with open('facebook_cookies', 'rb') as f:
         try:
             session.cookies.update(pickle.load(f))
         except:
-            print("Inicio de sesión no guardado")
+            print("No session saved")
     return session
 
 
 def i_login(user,password):
-    print("\nLogin")
+    print("Logging in instagram")
     session = requests.Session() 
     session.headers.update({'authority': 'www.instagram.com',
                             'method': 'GET',
@@ -134,21 +130,27 @@ def i_login(user,password):
     for resp in r2.history:
         print (resp.status_code, resp.url)
 
-    confirmado = ""
-    if r2.status_code == 400:
-        print("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡Confirmar login en la cuenta del celular!!!!!!!!!!!!!!!!")
-        print('Ha confirmado y desea continuar?')
-        confirmado = input('Si: continuar\nNo: cancelar\n:')
-        if confirmado == 'No':
-            print('Cancelado')
-            return  "Error en login"
+    # confirmado = ""
+    # if r2.status_code == 400:
+    #     print("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡Confirmar login en la cuenta del celular!!!!!!!!!!!!!!!!")
+    #     print('Ha confirmado y desea continuar?')
+    #     confirmado = input('Si: continuar\nNo: cancelar\n:')
+    #     if confirmado == 'No':
+    #         print('Cancelado')
+    if r2.status != 200:
+        print("Login failed")
     return session
 
 def i_save_session(session):
-    with open('instagram_cookies', 'wb') as f:
-        pickle.dump(session.cookies, f)
+    try:
+        print("Saving session")
+        with open('instagram_cookies', 'wb') as f:
+            pickle.dump(session.cookies, f)
+    except:
+        print("Save failed")
 
 def i_retrieve_session():
+    print("Retrieving session")
     session = requests.Session()  
     session.headers.update({'authority': 'www.instagram.com',
                             'method': 'GET',
@@ -167,27 +169,20 @@ def i_retrieve_session():
         try:
             session.cookies.update(pickle.load(f))
         except:
-            print("Inicio de sesión no guardado")
+            print("No session saved")
     return session
 
 
 def li_login(user,password):
-    print("INICIO DE SESIÓN")
+    print("Logging in linkedin")
     session = requests.Session()  
     time.sleep(5)
     r = session.get('https://www.linkedin.com/login')    
-
-
-    # print("\n")
-    # print("COOKIE 1")
     cookies = ""
     for name,value in session.cookies.items():
         cookies = cookies + name +'=' +value+';'
         # print(name,':',value)
-    # cookies.replace(" ", "")
-    # print(cookies)
 
-    print("LOGIN")
     session.headers.update({'Host': 'www.linkedin.com',
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0',
                             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -195,7 +190,6 @@ def li_login(user,password):
                             'Accept-Encoding': 'gzip, deflate, br',
                             'Referer': 'https://www.linkedin.com/login?trk=guest_homepage-basic_nav-header-signin',
                             'Content-Type': 'application/x-www-form-urlencoded',
-                            # 'Content-Length': '4697',
                             'Connection': 'keep-alive',
                             'Cookie': cookies,
                             'Upgrade-Insecure-Requests': '1',
@@ -218,46 +212,37 @@ def li_login(user,password):
             }
     time.sleep(5)
     r2 = session.post('https://www.linkedin.com/checkpoint/lg/login-submit',data=data)
-    # # r = session.post('https://httpbin.org/post',data = data)    #domain for test Request (retrieve the content of all fileds)
 
     print(r2.status_code, r2.url)
     for resp in r2.history:
         print (resp.status_code, resp.url)
-    # print("Cookie")
-    # print(session.cookies)
-
-    # Archivo de respuesta al login
-    flename = 'Linkedin_login.html'
-    with open(flename, 'wb') as f:
-        f.write(r2.content)
+    if r2.status != 200:
+        print("Login failed")
     
     return session
 
 def li_save_session(session):
-    with open('linkedin_cookies', 'wb') as f:
-        pickle.dump(session.cookies, f)
+    try:
+        print("Saving session")
+        with open('linkedin_cookies', 'wb') as f:
+            pickle.dump(session.cookies, f)
+    except:
+        print("Save failed")
 
 def li_retrieve_session():
-    print("INICIO DE SESIÓN")
+    print("Retrieving session")
     session = requests.Session()  
     time.sleep(5)
     r = session.get('https://www.linkedin.com/login')    
-
-
-    # print("\n")
-    # print("COOKIE 1")
     cookies = ""
     for name,value in session.cookies.items():
         cookies = cookies + name +'=' +value+';'
         # print(name,':',value)
-    # cookies.replace(" ", "")
-    # print(cookies)
 
-    print('Recuperando login anterior')
     with open('linkedin_cookies', 'rb') as f:
         try:
             session.cookies.update(pickle.load(f))
         except:
-            print("Inicio de sesión no guardado")
+            print("No session saved")
 
     return session
