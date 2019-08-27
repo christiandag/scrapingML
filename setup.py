@@ -9,5 +9,5 @@ setup(
     # long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://microlab.ec",
-    packages=["scraping_ml","scraping_ml.scraping_ml"]
+    packages=["C:/Users/Christian/Desktop/scraping_ml","scrapingML"]
 )
