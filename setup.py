@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name="scraping_ml",
+    name="scrapingML",
     version="0.0.1",
     author="microlab.ec",
     # author_email="contacto@microlab.ec",

@@ -1,0 +1,7 @@
+setup.py
+scrapingML/__init__.py
+scrapingML/scrapingML.py
+scrapingML.egg-info/PKG-INFO
+scrapingML.egg-info/SOURCES.txt
+scrapingML.egg-info/dependency_links.txt
+scrapingML.egg-info/top_level.txt
