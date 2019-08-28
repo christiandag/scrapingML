@@ -58,7 +58,7 @@ def fb_login(user,password):
     for resp in r2.history:
         print (resp.status_code, resp.url)
     
-    if r2.status != 200:
+    if r2.status_code != 200:
         print("Login failed")
     return session
 
@@ -137,7 +137,7 @@ def i_login(user,password):
     #     confirmado = input('Si: continuar\nNo: cancelar\n:')
     #     if confirmado == 'No':
     #         print('Cancelado')
-    if r2.status != 200:
+    if r2.status_code != 200:
         print("Login failed")
     return session
 
@@ -216,7 +216,7 @@ def li_login(user,password):
     print(r2.status_code, r2.url)
     for resp in r2.history:
         print (resp.status_code, resp.url)
-    if r2.status != 200:
+    if r2.status_code != 200:
         print("Login failed")
     
     return session
