@@ -10,5 +10,5 @@ setup(
     long_description_content_type="text/markdown",
     url="https://microlab.ec",
     # packages=["C:/Users/Christian/Desktop/scraping_ml","scrapingML"]
-    packages=["https://github.com/christiandag/scrapingML/tree/master/scrapingML","scrapingML"]
+    # packages=["https://github.com/christiandag/scrapingML/tree/master/scrapingML","scrapingML"]
 )
